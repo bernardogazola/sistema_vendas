@@ -16,6 +16,8 @@ public class Venda {
         this.itensVenda = new ArrayList<>();
         this.total = total;
         this.dataVenda = dataVenda;
+
+
     }
     public void adicionarItem(ItensVenda item){
         this.itensVenda.add(item);

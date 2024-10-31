@@ -9,12 +9,6 @@ public class Gerente extends Funcionario {
         super(id, nome, cpf, telefone, salario, dataContratacao);
         this.bonusMensal = bonusMensal;
         this.vendedoresSupervisionados = new ArrayList<>();
-    }
 
-    // EM DESENVOLVIMENTO
-    @Override
-    public double calcularComissao(Venda venda) {
-        // EM DESENVOLVIMENTO
-        return 0;
     }
 }
