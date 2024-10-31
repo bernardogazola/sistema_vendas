@@ -19,4 +19,9 @@ public class Venda {
 
 
     }
+    public void adicionarItem(ItensVenda item){
+        this.itensVenda.add(item);
+    }
+
+    
 }
