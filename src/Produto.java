@@ -4,7 +4,7 @@ public class Produto {
     private double preco;
     private int quantidadeEstoque;
 
-    public Produto(int idProduto, String nome, double preco, int quantidadeEstoque) {
+    public Produto(int idProduto,String nome,double preco,int quantidadeEstoque) {
         this.idProduto = idProduto;
         this.nome = nome;
         this.preco = preco;
@@ -12,9 +12,4 @@ public class Produto {
 
 
     }
-
-    public void atualizarEstoque(int qtd) {
-        this.quantidadeEstoque += qtd;
-    }
-
 }
