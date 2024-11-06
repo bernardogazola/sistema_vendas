@@ -26,10 +26,4 @@ public class MainFrame extends JFrame {
         add(btnLoginVendedor);
         add(btnCadastrarCliente);
     }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            new MainFrame().setVisible(true);
-        });
-    }
 }
