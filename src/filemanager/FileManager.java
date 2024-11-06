@@ -1,5 +1,8 @@
 package filemanager;
 
+import model.Cliente;
+import model.Produto;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,5 +26,35 @@ public class FileManager {
         }
         return linhas;
     }
+
+    // CLIENTE
+    public static void salvarCliente(Cliente cliente) throws IOException {
+        salvarDados("clientes.txt", cliente.toCSV());
+    }
+
+    public static List<Cliente> lerClientes() throws IOException {
+        List<String> linhas = lerDados("clientes.txt");
+        List<Cliente> clientes = new ArrayList<>();
+        for (String linha : linhas) {
+            clientes.add(Cliente.fromCSV(linha));
+        }
+        return clientes;
+    }
+
+    // PRODUTO
+    public static void salvarProduto(Produto produto) throws IOException {
+        salvarDados("produtos.txt", produto.toCSV());
+    }
+
+    public static List<Produto> lerProdutos() throws IOException {
+        List<String> linhas = lerDados("produtos.txt");
+        List<Produto> produtos = new ArrayList<>();
+        for (String linha : linhas) {
+            produtos.add(Produto.fromCSV(linha));
+        }
+        return produtos;
+    }
+
+    // VENDA ------ TODO
 }
 
