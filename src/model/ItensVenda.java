@@ -11,6 +11,14 @@ public class ItensVenda {
         this.quantidade = quantidade;
         this.precoUnitario = precoUnitario;
         this.precoTotal = precoTotal;
+    }
 
+    // REVER
+    private double calcularPrecoTotal() {
+        return this.quantidade * this.precoUnitario;
+    }
+
+    public double getPrecoTotal() {
+        return precoTotal;
     }
 }

@@ -11,6 +11,26 @@ public class Vendedor extends Funcionario {
         super(id, nome, cpf, telefone, salario, dataContratacao);
         this.metaMensal = metaMensal;
         this.vendasRealizadas = new ArrayList<>();
+    }
 
+    public double getMetaMensal() {
+        return metaMensal;
+    }
+    public ArrayList<Venda> getVendasRealizadas() {
+        return vendasRealizadas;
+    }
+
+    public void registrarVenda(Venda venda) {
+        vendasRealizadas.add(venda);
+    }
+
+    @Override
+    public double calcularComissao(Venda venda) {
+        return venda.getTotal() * 0.05;
+    }
+
+    @Override
+    public void exibirInfo() {
+        System.out.println("Vendedor: " + getNome() + " | CPF: " + getCpf() + " | Meta Mensal: " + metaMensal);
     }
 }

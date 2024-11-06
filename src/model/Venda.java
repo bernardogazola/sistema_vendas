@@ -16,13 +16,18 @@ public class Venda {
         this.cliente = cliente;
         this.funcionario = funcionario;
         this.itensVenda = new ArrayList<>();
-        this.total = total;
+        this.total = 0.0;
         this.dataVenda = dataVenda;
 
 
     }
-    public void adicionarItem(ItensVenda item){
-        this.itensVenda.add(item);
+    public void adicionarItem(ItensVenda item) {
+        itensVenda.add(item);
+        total += item.getPrecoTotal();
+    }
+
+    public double getTotal() {
+        return total;
     }
 
     
