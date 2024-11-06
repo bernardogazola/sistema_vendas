@@ -1,3 +1,5 @@
+package model;
+
 public class ItensVenda {
     private Produto produto;
     private int quantidade;
