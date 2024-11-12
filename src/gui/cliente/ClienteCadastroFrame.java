@@ -1,4 +1,4 @@
-package gui;
+package gui.cliente;
 
 import filemanager.FileManager;
 import model.Cliente;

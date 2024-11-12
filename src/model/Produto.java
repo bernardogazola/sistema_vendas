@@ -30,4 +30,16 @@ public class Produto {
         }
         quantidadeEstoque -= quantidade;
     }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public int getQuantidadeEstoque() {
+        return quantidadeEstoque;
+    }
+
+    public void setQuantidadeEstoque(int quantidadeEstoque) {
+        this.quantidadeEstoque = quantidadeEstoque;
+    }
 }
