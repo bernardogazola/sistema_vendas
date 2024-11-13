@@ -130,7 +130,12 @@ public class VendaGerenteFrame extends JFrame {
                 String quantidadeStr = pq.getQuantidadeField().getText();
                 if (!quantidadeStr.isEmpty()) {
                     int quantidade = Integer.parseInt(quantidadeStr);
-                    if (quantidade > 0 && quantidade <= produtoSelecionado.getQuantidadeEstoque()) {
+
+                    if (quantidade > produtoSelecionado.getQuantidadeEstoque()) {
+                        throw new EstoqueInsuficienteException("Estoque insuficiente para o produto: " + produtoSelecionado.getNome());
+                    }
+
+                    if (quantidade > 0) {
                         double precoTotal = produtoSelecionado.getPreco() * quantidade;
                         ItensVenda itemVenda = new ItensVenda(produtoSelecionado, quantidade, produtoSelecionado.getPreco(), precoTotal);
                         venda.adicionarItem(itemVenda, true);
