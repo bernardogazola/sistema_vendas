@@ -1,5 +1,6 @@
 package gui.gerente;
 import gui.MainFrame;
+import gui.gerente.frames.CadastrarVendedorFrame;
 import gui.gerente.frames.EstoqueGerenciamentoFrame;
 import gui.gerente.frames.PerfilGerenteFrame;
 import gui.gerente.frames.ProdutoEstoqueFrame;
@@ -19,15 +20,15 @@ public class GerenteDashboardFrame extends JFrame {
         add(lblBemVindo);
 
         JButton btnCadastrarVendedor = new JButton("Cadastrar vendedor");
-        btnCadastrarVendedor.setBounds(75, 100, 300, 30);
-        //btnCadastrarVendedor.addActionListener(e -> );
+        btnCadastrarVendedor.setBounds(50, 100, 300, 30);
+        btnCadastrarVendedor.addActionListener(e -> new CadastrarVendedorFrame().setVisible(true));
 
         JButton btnAdicionarProduto = new JButton("Adicionar produto");
-        btnAdicionarProduto.setBounds(75, 150, 300, 30);
+        btnAdicionarProduto.setBounds(50, 150, 300, 30);
         btnAdicionarProduto.addActionListener(e -> new EstoqueGerenciamentoFrame().setVisible(true));
 
         JButton btnEstoqueProdutos = new JButton("Estoque Produtos");
-        btnEstoqueProdutos.setBounds(75, 200, 300, 30);
+        btnEstoqueProdutos.setBounds(50, 200, 300, 30);
         btnEstoqueProdutos.addActionListener(e -> new ProdutoEstoqueFrame().setVisible(true));
 
         JButton btnVerPerfil = new JButton("Ver Perfil");
