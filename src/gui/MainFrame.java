@@ -30,7 +30,6 @@ public class MainFrame extends JFrame {
         JPasswordField txtPassword = new JPasswordField();
         txtPassword.setBounds(150, 70, 200, 25);
 
-        // Botão de Login
         JButton btnLogin = new JButton("Login");
         btnLogin.setBounds(150, 110, 100, 30);
         btnLogin.addActionListener(e -> {

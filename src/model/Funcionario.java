@@ -2,7 +2,7 @@ package model;
 
 import java.time.LocalDate;
 
-public abstract class Funcionario extends Pessoa {
+public class Funcionario extends Pessoa {
     private double salario;
     private LocalDate dataContratacao;
 
@@ -19,7 +19,9 @@ public abstract class Funcionario extends Pessoa {
         return dataContratacao;
     }
 
-    public abstract double calcularComissao(Venda venda);
+    public double calcularComissao(Venda venda) {
+        return venda.getTotal() * 0.03;
+    }
 
     @Override
     public String exibirInfo() {
