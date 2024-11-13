@@ -1,9 +1,13 @@
 package gui;
 
-import filemanager.FileManager;
+import filemanager.usuario.GerenteFileManager;
+import filemanager.usuario.UsuarioFileManager;
+import filemanager.usuario.VendedorFileManager;
 import gui.admin.AdminDashboardFrame;
 import gui.gerente.GerenteDashboardFrame;
 import gui.vendedor.VendedorDashboardFrame;
+import model.Credencial;
+import model.Funcionario;
 import model.Gerente;
 import model.Vendedor;
 
@@ -18,6 +22,7 @@ public class MainFrame extends JFrame {
         setTitle("Login do Sistema de Gestão de Vendas");
         setSize(400, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
         setLayout(null);
 
         JLabel lblUsername = new JLabel("Usuário:");
@@ -68,22 +73,18 @@ public class MainFrame extends JFrame {
         add(btnLogin);
     }
 
-    private Object autenticar(String username, String password) throws IOException {
-        List<String> logins = FileManager.lerDados("logins.txt");
-        for (String linha : logins) {
-            String[] partes = linha.split(",");
-            if (partes.length == 4) {
-                int id = Integer.parseInt(partes[0]);
-                String tipo = partes[1];
-                String loginUsuario = partes[2];
-                String senha = partes[3];
+    private Funcionario autenticar(String username, String password) throws IOException {
+        UsuarioFileManager usuarioFileManager = new UsuarioFileManager();
+        List<Credencial> credenciais = usuarioFileManager.ler();
 
-                if (loginUsuario.equals(username) && senha.equals(password)) {
-                    if (tipo.equals("Gerente")) {
-                        return buscarGerente(id);
-                    } else if (tipo.equals("Vendedor")) {
-                        return buscarVendedor(id);
-                    }
+        for (Credencial credencial : credenciais) {
+            if (credencial.getUsername().equals(username) && credencial.getPassword().equals(password)) {
+                int id = credencial.getId();
+                String tipo = credencial.getTipo();
+                if ("Gerente".equals(tipo)) {
+                    return buscarGerente(id);
+                } else if ("Vendedor".equals(tipo)) {
+                    return buscarVendedor(id);
                 }
             }
         }
@@ -91,7 +92,9 @@ public class MainFrame extends JFrame {
     }
 
     private Gerente buscarGerente(int id) throws IOException {
-        List<Gerente> gerentes = FileManager.lerGerentes();
+        GerenteFileManager gerenteFileManager = new GerenteFileManager();
+        List<Gerente> gerentes = gerenteFileManager.ler();
+
         for (Gerente gerente : gerentes) {
             if (gerente.getId() == id) {
                 return gerente;
@@ -101,7 +104,9 @@ public class MainFrame extends JFrame {
     }
 
     private Vendedor buscarVendedor(int id) throws IOException {
-        List<Vendedor> vendedores = FileManager.lerVendedores();
+        VendedorFileManager vendedorFileManager = new VendedorFileManager();
+        List<Vendedor> vendedores = vendedorFileManager.ler();
+
         for (Vendedor vendedor : vendedores) {
             if (vendedor.getId() == id) {
                 return vendedor;

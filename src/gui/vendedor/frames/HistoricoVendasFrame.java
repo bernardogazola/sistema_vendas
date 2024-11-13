@@ -1,6 +1,6 @@
 package gui.vendedor.frames;
 
-import filemanager.FileManager;
+import filemanager.venda.VendaFileManager;
 import model.Venda;
 import model.Vendedor;
 
@@ -15,6 +15,7 @@ public class HistoricoVendasFrame extends JFrame {
         setTitle("Histórico de Vendas");
         setSize(500, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
         JLabel lblTitulo = new JLabel("Histórico de Vendas de " + vendedor.getNome(), JLabel.CENTER);
@@ -25,13 +26,14 @@ public class HistoricoVendasFrame extends JFrame {
         vendasPanel.setLayout(new BoxLayout(vendasPanel, BoxLayout.Y_AXIS));
 
         try {
-            List<Venda> vendas = FileManager.lerVendasDoVendedor(vendedor.getId());
+            VendaFileManager vendaFileManager = new VendaFileManager();
+            List<Venda> vendas = vendaFileManager.lerVendasDoVendedor(vendedor.getId());
+
             if (vendas.isEmpty()) {
                 vendasPanel.add(new JLabel("Nenhuma venda encontrada."));
             } else {
                 for (Venda venda : vendas) {
-                    String vendaInfo = "ID: " + venda.getIdVenda() + " | Total: R$" + venda.getTotal() +
-                            " | Data: " + venda.getDataVenda();
+                    String vendaInfo = "ID: " + venda.getIdVenda() + " | Total: R$" + venda.getTotal() + " | Data: " + venda.getDataVenda();
                     JLabel lblVenda = new JLabel(vendaInfo);
                     vendasPanel.add(lblVenda);
                 }

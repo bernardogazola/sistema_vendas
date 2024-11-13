@@ -13,6 +13,7 @@ public class GerenteDashboardFrame extends JFrame {
         setTitle("Dashboard - Gerente");
         setSize(400, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
         setLayout(null);
 
         JLabel lblBemVindo = new JLabel("Bem-vindo, Gerente " + gerente.getNome());

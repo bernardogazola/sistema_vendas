@@ -1,6 +1,8 @@
 package gui.gerente.frames;
 
-import filemanager.FileManager;
+import filemanager.usuario.UsuarioFileManager;
+import filemanager.usuario.VendedorFileManager;
+import model.Credencial;
 import model.Vendedor;
 
 import javax.swing.*;
@@ -11,8 +13,9 @@ public class CadastrarVendedorFrame extends JFrame {
 
     public CadastrarVendedorFrame() {
         setTitle("Cadastrar Vendedor");
-        setSize(400, 400);
+        setSize(400, 500);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
         setLayout(null);
 
         JLabel lblUsername = new JLabel("Usuário:");
@@ -63,24 +66,28 @@ public class CadastrarVendedorFrame extends JFrame {
             String nome = txtNome.getText();
             String cpf = txtCpf.getText();
             String telefone = txtTelefone.getText();
-            double salario = Double.parseDouble(txtSalario.getText());
-            LocalDate dataContratacao = LocalDate.parse(txtDataContratacao.getText());
-            double metaMensal = Double.parseDouble(txtMetaMensal.getText());
 
             try {
-                // Gera um novo ID para o vendedor
-                int id = FileManager.gerarNovoId();
+                double salario = Double.parseDouble(txtSalario.getText());
+                LocalDate dataContratacao = LocalDate.parse(txtDataContratacao.getText());
+                double metaMensal = Double.parseDouble(txtMetaMensal.getText());
 
-                // Salva o login no arquivo logins.txt
-                FileManager.salvarLogin(id, "Vendedor", username, password);
+                UsuarioFileManager usuarioFileManager = new UsuarioFileManager();
+                VendedorFileManager vendedorFileManager = new VendedorFileManager();
 
-                // Cria um novo objeto Vendedor e salva no arquivo vendedores.txt
+                int id = usuarioFileManager.gerarNovoId();
+
+                Credencial credencial = new Credencial(id, "Vendedor", username, password);
+                usuarioFileManager.salvar(credencial);
+
                 Vendedor vendedor = new Vendedor(id, nome, cpf, telefone, salario, dataContratacao, metaMensal);
-                FileManager.salvarVendedor(vendedor);
+                vendedorFileManager.salvar(vendedor);
 
                 JOptionPane.showMessageDialog(this, "Vendedor cadastrado com sucesso!");
                 dispose();
 
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Por favor, insira valores numéricos válidos para salário e meta mensal.");
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(this, "Erro ao salvar vendedor: " + ex.getMessage());
             }

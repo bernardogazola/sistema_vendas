@@ -1,7 +1,9 @@
 package gui.vendedor.frames;
 
 import exception.EstoqueInsuficienteException;
-import filemanager.FileManager;
+import filemanager.cliente.ClienteFileManager;
+import filemanager.produto.ProdutoFileManager;
+import filemanager.venda.VendaFileManager;
 import model.*;
 
 import javax.swing.*;
@@ -23,11 +25,15 @@ public class VendaFrame extends JFrame {
         setTitle("Realizar Venda");
         setSize(600, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
         try {
-            List<Cliente> clientes = FileManager.lerClientes();
-            List<Produto> produtos = FileManager.lerProdutos();
+            ClienteFileManager clienteFileManager = new ClienteFileManager();
+            ProdutoFileManager produtoFileManager = new ProdutoFileManager();
+
+            List<Cliente> clientes = clienteFileManager.ler();
+            List<Produto> produtos = produtoFileManager.ler();
 
             JPanel clientePanel = new JPanel();
             clientePanel.setLayout(new FlowLayout());
@@ -41,7 +47,7 @@ public class VendaFrame extends JFrame {
             for (Produto produto : produtos) {
                 JPanel produtoPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
                 JLabel lblProduto = new JLabel(produto.getNome() + " - Estoque: " + produto.getQuantidadeEstoque() + " - Preço: R$" + produto.getPreco());
-                JTextField txtQuantidade = new JTextField("0",5);
+                JTextField txtQuantidade = new JTextField("0", 5);
 
                 txtQuantidade.getDocument().addDocumentListener(new DocumentListener() {
                     @Override
@@ -76,7 +82,7 @@ public class VendaFrame extends JFrame {
             add(subtotalPanel, BorderLayout.SOUTH);
 
             JButton btnRealizarVenda = new JButton("Realizar Venda");
-            btnRealizarVenda.addActionListener(e -> realizarVenda(vendedor));
+            btnRealizarVenda.addActionListener(e -> realizarVenda(vendedor, produtoFileManager));
             subtotalPanel.add(btnRealizarVenda);
 
         } catch (IOException e) {
@@ -95,7 +101,7 @@ public class VendaFrame extends JFrame {
                     int quantidade = Integer.parseInt(quantidadeStr);
                     subtotal += quantidade * produto.getPreco();
                 } catch (NumberFormatException e) {
-                    // Ignora valores inválidos
+                    // Ignora
                 }
             }
         }
@@ -103,7 +109,7 @@ public class VendaFrame extends JFrame {
         subtotalLabel.setText(String.format("Subtotal: R$ %.2f", subtotal));
     }
 
-    private void realizarVenda(Vendedor vendedor) {
+    private void realizarVenda(Vendedor vendedor, ProdutoFileManager produtoFileManager) {
         Cliente cliente = (Cliente) clienteComboBox.getSelectedItem();
         if (cliente == null) {
             JOptionPane.showMessageDialog(this, "Selecione um cliente.");
@@ -111,10 +117,12 @@ public class VendaFrame extends JFrame {
         }
 
         try {
-            int idVenda = FileManager.gerarNovoIdVenda();
+            VendaFileManager vendaFileManager = new VendaFileManager();
+
+            int idVenda = vendaFileManager.gerarNovoId();
             Venda venda = new Venda(idVenda, cliente, vendedor, 0, LocalDate.now());
 
-            List<Produto> todosProdutos = FileManager.lerProdutos();
+            List<Produto> todosProdutos = produtoFileManager.ler();
 
             for (ProdutoQuantidade pq : produtoQuantidades) {
                 Produto produtoSelecionado = pq.getProduto();
@@ -124,7 +132,7 @@ public class VendaFrame extends JFrame {
                     if (quantidade > 0 && quantidade <= produtoSelecionado.getQuantidadeEstoque()) {
                         double precoTotal = produtoSelecionado.getPreco() * quantidade;
                         ItensVenda itemVenda = new ItensVenda(produtoSelecionado, quantidade, produtoSelecionado.getPreco(), precoTotal);
-                        venda.adicionarItem(itemVenda);
+                        venda.adicionarItem(itemVenda, true);
 
                         for (Produto produto : todosProdutos) {
                             if (produto.getIdProduto() == produtoSelecionado.getIdProduto()) {
@@ -136,9 +144,8 @@ public class VendaFrame extends JFrame {
                 }
             }
 
-            FileManager.salvarVenda(venda);
-
-            FileManager.salvarProdutosAtualizados(todosProdutos);
+            vendaFileManager.salvar(venda);
+            produtoFileManager.salvarProdutosAtualizados(todosProdutos);
 
             JOptionPane.showMessageDialog(this, "Venda realizada com sucesso!");
             dispose();

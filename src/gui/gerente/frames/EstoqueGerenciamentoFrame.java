@@ -1,5 +1,5 @@
 package gui.gerente.frames;
-import filemanager.FileManager;
+import filemanager.produto.ProdutoFileManager;
 import model.Produto;
 import javax.swing.*;
 import java.io.IOException;
@@ -8,6 +8,7 @@ public class EstoqueGerenciamentoFrame extends JFrame {
     public EstoqueGerenciamentoFrame() {
         setTitle("Adicionar Produto");
         setSize(400, 300);
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(null);
 
@@ -28,17 +29,27 @@ public class EstoqueGerenciamentoFrame extends JFrame {
 
         JButton btnSalvarProduto = new JButton("Salvar Produto");
         btnSalvarProduto.setBounds(150, 150, 150, 30);
+
         btnSalvarProduto.addActionListener(e -> {
             String nome = txtNome.getText();
-            double preco = Double.parseDouble(txtPreco.getText());
-            int quantidade = Integer.parseInt(txtQuantidade.getText());
-            Produto produto = new Produto(1, nome, preco, quantidade);
+            double preco;
+            int quantidade;
 
             try {
-                FileManager.salvarProduto(produto);
-                JOptionPane.showMessageDialog(null, "Produto salvo com sucesso!");
+                preco = Double.parseDouble(txtPreco.getText());
+                quantidade = Integer.parseInt(txtQuantidade.getText());
+
+                ProdutoFileManager produtoFileManager = new ProdutoFileManager();
+                int novoId = produtoFileManager.gerarNovoId();
+                Produto produto = new Produto(novoId, nome, preco, quantidade);
+
+                produtoFileManager.salvar(produto);
+                JOptionPane.showMessageDialog(this, "Produto salvo com sucesso!");
+                dispose();
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Por favor, insira valores válidos para preço e quantidade.");
             } catch (IOException ex) {
-                JOptionPane.showMessageDialog(null, "Erro ao salvar produto: " + ex.getMessage());
+                JOptionPane.showMessageDialog(this, "Erro ao salvar produto: " + ex.getMessage());
             }
         });
 

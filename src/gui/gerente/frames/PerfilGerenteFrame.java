@@ -11,6 +11,7 @@ public class PerfilGerenteFrame extends JFrame {
         setTitle("Perfil do Gerente");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
         JPanel perfilPanel = new JPanel();

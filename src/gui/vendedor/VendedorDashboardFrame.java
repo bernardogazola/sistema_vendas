@@ -13,6 +13,7 @@ public class VendedorDashboardFrame extends JFrame {
         setTitle("Dashboard - Vendedor");
         setSize(400, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
         setLayout(null);
 
         JLabel lblBemVindo = new JLabel("Bem-vindo, Vendedor " + vendedor.getNome());

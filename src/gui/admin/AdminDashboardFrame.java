@@ -10,6 +10,7 @@ public class AdminDashboardFrame extends JFrame {
         setTitle("Dashboard - Admin");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
         setLayout(null);
 
         JLabel lblBemVindo = new JLabel("Bem-vindo, Administrador");

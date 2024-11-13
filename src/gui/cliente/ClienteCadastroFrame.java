@@ -1,17 +1,18 @@
 package gui.cliente;
 
-import filemanager.FileManager;
+import filemanager.cliente.ClienteFileManager;
 import model.Cliente;
 
 import javax.swing.*;
 import java.io.IOException;
-import java.util.List;
 
 public class ClienteCadastroFrame extends JFrame {
+
     public ClienteCadastroFrame() {
         setTitle("Cadastro de Cliente");
         setSize(300, 250);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
         setLayout(null);
 
         JLabel lblNome = new JLabel("Nome:");
@@ -36,26 +37,25 @@ public class ClienteCadastroFrame extends JFrame {
 
         JButton btnSalvar = new JButton("Salvar");
         btnSalvar.setBounds(100, 150, 80, 30);
+
         btnSalvar.addActionListener(e -> {
             String nome = txtNome.getText();
             String cpf = txtCpf.getText();
             String telefone = txtTelefone.getText();
             String email = txtEmail.getText();
 
-            // REVER MANEIRA MELHOR
-            List<Cliente> clientes;
             try {
-                clientes = FileManager.lerClientes();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-            Cliente cliente = new Cliente(Cliente.getUltimoId(clientes) + 1, nome, cpf, telefone, email);
+                ClienteFileManager clienteFileManager = new ClienteFileManager();
+                int novoId = clienteFileManager.gerarNovoId();
 
-            try {
-                FileManager.salvarCliente(cliente);
-                JOptionPane.showMessageDialog(null, "Cliente salvo com sucesso!");
+                Cliente cliente = new Cliente(novoId, nome, cpf, telefone, email);
+                clienteFileManager.salvar(cliente);
+
+                JOptionPane.showMessageDialog(this, "Cliente salvo com sucesso!");
+                dispose();
+
             } catch (IOException ex) {
-                JOptionPane.showMessageDialog(null, "Erro ao salvar cliente: " + ex.getMessage());
+                JOptionPane.showMessageDialog(this, "Erro ao salvar cliente: " + ex.getMessage());
             }
         });
 

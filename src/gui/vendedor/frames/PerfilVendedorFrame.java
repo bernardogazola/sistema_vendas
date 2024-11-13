@@ -1,6 +1,6 @@
 package gui.vendedor.frames;
 
-import filemanager.FileManager;
+import filemanager.venda.VendaFileManager;
 import model.Venda;
 import model.Vendedor;
 
@@ -15,6 +15,7 @@ public class PerfilVendedorFrame extends JFrame {
         setTitle("Perfil do Vendedor");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
         JPanel perfilPanel = new JPanel();
@@ -27,8 +28,11 @@ public class PerfilVendedorFrame extends JFrame {
 
         double totalVendas = 0.0;
         double totalComissao = 0.0;
+
         try {
-            List<Venda> vendas = FileManager.lerVendasDoVendedor(vendedor.getId());
+            VendaFileManager vendaFileManager = new VendaFileManager();
+            List<Venda> vendas = vendaFileManager.lerVendasDoVendedor(vendedor.getId());
+
             for (Venda venda : vendas) {
                 totalVendas += venda.getTotal();
                 totalComissao += vendedor.calcularComissao(venda);

@@ -1,11 +1,13 @@
 package gui.admin.frames;
 
-import filemanager.FileManager;
+import filemanager.usuario.GerenteFileManager;
+import filemanager.usuario.UsuarioFileManager;
+import filemanager.usuario.VendedorFileManager;
+import model.Credencial;
 import model.Gerente;
 import model.Vendedor;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.IOException;
 import java.time.LocalDate;
 
@@ -15,6 +17,7 @@ public class RegistroFrame extends JFrame {
         setTitle("Registro de Usuário");
         setSize(400, 500);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
         setLayout(null);
 
         JLabel lblUsername = new JLabel("Usuário:");
@@ -104,34 +107,42 @@ public class RegistroFrame extends JFrame {
 
         JButton btnRegistrar = new JButton("Registrar");
         btnRegistrar.setBounds(150, 400, 100, 30);
+
         btnRegistrar.addActionListener(e -> {
             String username = txtUsername.getText();
             String password = new String(txtPassword.getPassword());
             String nome = txtNome.getText();
             String cpf = txtCpf.getText();
             String telefone = txtTelefone.getText();
-            double salario = Double.parseDouble(txtSalario.getText());
-            LocalDate dataContratacao = LocalDate.parse(txtDataContratacao.getText());
-            boolean isGerente = cbTipoUsuario.getSelectedItem().equals("Gerente");
+            double salario;
+            LocalDate dataContratacao;
 
             try {
-                int id = FileManager.gerarNovoId();
-                String tipo = isGerente ? "Gerente" : "Vendedor";
-                FileManager.salvarLogin(id, tipo, username, password);
+                salario = Double.parseDouble(txtSalario.getText());
+                dataContratacao = LocalDate.parse(txtDataContratacao.getText());
 
-                if (isGerente) {
+                UsuarioFileManager usuarioFileManager = new UsuarioFileManager();
+                int id = usuarioFileManager.gerarNovoId();
+                Credencial credencial = new Credencial(id, cbTipoUsuario.getSelectedItem().toString(), username, password);
+                usuarioFileManager.salvar(credencial);
+
+                if ("Gerente".equals(cbTipoUsuario.getSelectedItem())) {
                     double bonusMensal = Double.parseDouble(txtBonusMensal.getText());
+                    GerenteFileManager gerenteFileManager = new GerenteFileManager();
                     Gerente gerente = new Gerente(id, nome, cpf, telefone, salario, dataContratacao, bonusMensal);
-                    FileManager.salvarGerente(gerente);
+                    gerenteFileManager.salvar(gerente);
                 } else {
                     double metaMensal = Double.parseDouble(txtMetaMensal.getText());
+                    VendedorFileManager vendedorFileManager = new VendedorFileManager();
                     Vendedor vendedor = new Vendedor(id, nome, cpf, telefone, salario, dataContratacao, metaMensal);
-                    FileManager.salvarVendedor(vendedor);
+                    vendedorFileManager.salvar(vendedor);
                 }
 
                 JOptionPane.showMessageDialog(this, "Registro realizado com sucesso!");
                 dispose();
 
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Por favor, insira valores válidos para salário e datas.");
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(this, "Erro ao registrar: " + ex.getMessage());
             }

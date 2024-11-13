@@ -21,9 +21,11 @@ public class Venda {
 
 
     }
-    public void adicionarItem(ItensVenda item) {
+    public void adicionarItem(ItensVenda item, boolean atualizarTotal) {
         itensVenda.add(item);
-        total += item.getPrecoTotal();
+        if (atualizarTotal) {
+            total += item.getPrecoTotal();
+        }
     }
 
     public double getTotal() {

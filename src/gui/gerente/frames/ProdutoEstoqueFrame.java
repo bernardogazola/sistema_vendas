@@ -1,6 +1,6 @@
 package gui.gerente.frames;
 
-import filemanager.FileManager;
+import filemanager.produto.ProdutoFileManager;
 import model.Produto;
 
 import javax.swing.*;
@@ -15,13 +15,15 @@ public class ProdutoEstoqueFrame extends JFrame {
         setTitle("Gerenciamento de Estoque de Produtos");
         setSize(500, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         try {
-            produtos = FileManager.lerProdutos();
+            ProdutoFileManager produtoFileManager = new ProdutoFileManager();
+            produtos = produtoFileManager.ler();
             for (Produto produto : produtos) {
                 JPanel produtoPanel = new JPanel();
                 produtoPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -30,7 +32,7 @@ public class ProdutoEstoqueFrame extends JFrame {
                 lblNome.setPreferredSize(new Dimension(300, 25));
 
                 JButton btnAlterar = new JButton("Alterar Estoque");
-                btnAlterar.addActionListener(e -> abrirAlterarEstoqueDialog(produto, lblNome));
+                btnAlterar.addActionListener(e -> abrirAlterarEstoqueDialog(produto, lblNome, produtoFileManager));
 
                 produtoPanel.add(lblNome);
                 produtoPanel.add(btnAlterar);
@@ -45,7 +47,7 @@ public class ProdutoEstoqueFrame extends JFrame {
         add(scrollPane, BorderLayout.CENTER);
     }
 
-    private void abrirAlterarEstoqueDialog(Produto produto, JLabel lblNome) {
+    private void abrirAlterarEstoqueDialog(Produto produto, JLabel lblNome, ProdutoFileManager produtoFileManager) {
         String quantidadeStr = JOptionPane.showInputDialog(this, "Informe a nova quantidade em estoque para o produto " + produto.getNome() + ":");
         if (quantidadeStr != null) {
             try {
@@ -54,7 +56,7 @@ public class ProdutoEstoqueFrame extends JFrame {
 
                 lblNome.setText(produto.getNome() + " - Estoque: " + produto.getQuantidadeEstoque());
 
-                FileManager.salvarProdutosAtualizados(produtos);
+                produtoFileManager.salvarProdutosAtualizados(produtos);
 
                 JOptionPane.showMessageDialog(this, "Quantidade atualizada com sucesso!");
             } catch (NumberFormatException ex) {
