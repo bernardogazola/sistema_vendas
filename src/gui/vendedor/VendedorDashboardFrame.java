@@ -1,4 +1,5 @@
 package gui.vendedor;
+import gui.MainFrame;
 import gui.cliente.ClienteCadastroFrame;
 import gui.vendedor.frames.HistoricoVendasFrame;
 import gui.vendedor.frames.PerfilVendedorFrame;
@@ -38,5 +39,14 @@ public class VendedorDashboardFrame extends JFrame {
         add(btnCadastroCliente);
         add(btnRealizarVenda);
         add(btnHistoricoVendas);
+
+        //LOGOUT
+        JButton btnLogout = new JButton("Logout");
+        btnLogout.setBounds(50, 300, 300, 30);
+        btnLogout.addActionListener(e -> {
+            dispose();
+            new MainFrame().setVisible(true);
+        });
+        add(btnLogout);
     }
 }

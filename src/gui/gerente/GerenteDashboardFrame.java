@@ -1,4 +1,5 @@
 package gui.gerente;
+import gui.MainFrame;
 import gui.gerente.frames.EstoqueGerenciamentoFrame;
 import gui.gerente.frames.ProdutoEstoqueFrame;
 import model.Gerente;
@@ -8,7 +9,7 @@ import javax.swing.*;
 public class GerenteDashboardFrame extends JFrame {
     public GerenteDashboardFrame(Gerente gerente) {
         setTitle("Dashboard - Gerente");
-        setSize(400, 300);
+        setSize(400, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(null);
 
@@ -31,5 +32,14 @@ public class GerenteDashboardFrame extends JFrame {
         add(btnCadastrarVendedor);
         add(btnAdicionarProduto);
         add(btnEstoqueProdutos);
+
+        // LOGOUT
+        JButton btnLogout = new JButton("Logout");
+        btnLogout.setBounds(50, 250, 300, 30);
+        btnLogout.addActionListener(e -> {
+            dispose();
+            new MainFrame().setVisible(true);
+        });
+        add(btnLogout);
     }
 }

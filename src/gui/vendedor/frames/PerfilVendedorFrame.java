@@ -20,18 +20,18 @@ public class PerfilVendedorFrame extends JFrame {
         JPanel perfilPanel = new JPanel();
         perfilPanel.setLayout(new BoxLayout(perfilPanel, BoxLayout.Y_AXIS));
         perfilPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        perfilPanel.add(new JLabel("Nome: " + vendedor.getNome()));
-        perfilPanel.add(new JLabel("CPF: " + vendedor.getCpf()));
+        perfilPanel.add(new JLabel(vendedor.exibirInfo()));
         perfilPanel.add(new JLabel("Telefone: " + vendedor.getTelefone()));
         perfilPanel.add(new JLabel("Salário: R$ " + vendedor.getSalario()));
         perfilPanel.add(new JLabel("Data de Contratação: " + vendedor.getDataContratacao()));
-        perfilPanel.add(new JLabel("Meta Mensal: R$ " + vendedor.getMetaMensal()));
 
         double totalVendas = 0.0;
+        double totalComissao = 0.0;
         try {
             List<Venda> vendas = FileManager.lerVendasDoVendedor(vendedor.getId());
             for (Venda venda : vendas) {
                 totalVendas += venda.getTotal();
+                totalComissao += vendedor.calcularComissao(venda);
             }
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this, "Erro ao carregar vendas: " + e.getMessage());
@@ -45,6 +45,8 @@ public class PerfilVendedorFrame extends JFrame {
 
         JLabel progressoLabel = new JLabel(String.format("Progresso: %.2f%% (%s)", progresso, status));
         perfilPanel.add(progressoLabel);
+
+        perfilPanel.add(new JLabel(String.format("Total de Comissão: R$ %.2f", totalComissao)));
 
         add(perfilPanel, BorderLayout.CENTER);
     }

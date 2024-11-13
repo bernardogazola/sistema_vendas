@@ -1,5 +1,6 @@
 package gui.admin;
 
+import gui.MainFrame;
 import gui.admin.frames.RegistroFrame;
 
 import javax.swing.*;
@@ -20,5 +21,14 @@ public class AdminDashboardFrame extends JFrame {
         btnRegistrarUsuario.addActionListener(e -> new RegistroFrame().setVisible(true));
 
         add(btnRegistrarUsuario);
+
+
+        JButton btnLogout = new JButton("Logout");
+        btnLogout.setBounds(75, 150, 150, 30);
+        btnLogout.addActionListener(e -> {
+            dispose();
+            new MainFrame().setVisible(true);
+        });
+        add(btnLogout);
     }
 }

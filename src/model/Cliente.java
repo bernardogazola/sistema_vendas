@@ -33,8 +33,8 @@ public class Cliente extends Pessoa {
     }
 
     @Override
-    public void exibirInfo() {
-        System.out.println("Cliente: " + getNome() + " | CPF: " + getCpf() + " | Email: " + email);
+    public String exibirInfo() {
+        return "Cliente: " + getNome() + " | CPF: " + getCpf() + " | Email: " + email;
     }
 
     public String toCSV() {

@@ -23,7 +23,7 @@ public class Gerente extends Funcionario {
     }
 
     @Override
-    public void exibirInfo() {
-        System.out.println("Gerente: " + getNome() + " | Bônus Mensal: " + bonusMensal);
+    public String exibirInfo() {
+        return "Gerente: " + getNome() + " | Bônus Mensal: " + bonusMensal;
     }
 }

@@ -22,7 +22,7 @@ public abstract class Funcionario extends Pessoa {
     public abstract double calcularComissao(Venda venda);
 
     @Override
-    public void exibirInfo() {
-        System.out.println("Funcionario: " + getNome() + " | CPF: " + getCpf() + " | Salário: " + salario);
+    public String exibirInfo() {
+        return "Funcionario: " + getNome() + " | CPF: " + getCpf() + " | Salário: " + salario;
     }
 }

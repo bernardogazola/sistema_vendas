@@ -29,5 +29,5 @@ public abstract class Pessoa {
         return telefone;
     }
 
-    public abstract void exibirInfo();
+    public abstract String exibirInfo();
 }

@@ -30,7 +30,7 @@ public class Vendedor extends Funcionario {
     }
 
     @Override
-    public void exibirInfo() {
-        System.out.println("Vendedor: " + getNome() + " | CPF: " + getCpf() + " | Meta Mensal: " + metaMensal);
+    public String exibirInfo() {
+       return "Vendedor: " + getNome() + " | CPF: " + getCpf() + " | Meta Mensal: " + metaMensal;
     }
 }
