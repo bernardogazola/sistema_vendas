@@ -66,6 +66,46 @@ public class FileManager {
     }
 
     // VENDA ------ TODO
+    public static int gerarNovoIdVenda() throws IOException {
+        List<String> linhas = lerDados("vendas.txt");
+        return linhas.size() + 1;
+    }
+
+    public static void salvarVenda(Venda venda) throws IOException {
+        String vendaDados = venda.getIdVenda() + "," + venda.getCliente().getId() + "," + venda.getFuncionario().getId() +
+                "," + venda.getTotal() + "," + venda.getDataVenda().toString();
+        salvarDados("vendas.txt", vendaDados);
+
+        for (ItensVenda item : venda.getItensVenda()) {
+            String itemDados = venda.getIdVenda() + "," + item.getProduto().getIdProduto() + "," +
+                    item.getQuantidade() + "," + item.getPrecoUnitario() + "," + item.getPrecoTotal();
+            salvarDados("itensVendas.txt", itemDados);
+        }
+    }
+
+    public static List<Venda> lerVendasDoVendedor(int idVendedor) throws IOException {
+        List<Venda> vendas = new ArrayList<>();
+        List<String> linhas = lerDados("vendas.txt");
+
+        for (String linha : linhas) {
+            String[] dados = linha.split(",");
+            if (dados.length >= 5) {
+                int idVenda = Integer.parseInt(dados[0]);
+                int idCliente = Integer.parseInt(dados[1]);
+                int idFuncionario = Integer.parseInt(dados[2]);
+                double total = Double.parseDouble(dados[3]);
+                LocalDate dataVenda = LocalDate.parse(dados[4]);
+
+                if (idFuncionario == idVendedor) {
+                    Venda venda = new Venda(idVenda, new Cliente(idCliente, "", "", "", ""), new Vendedor(idFuncionario, "", "", "", 0, dataVenda, 0), total, dataVenda);
+                    vendas.add(venda);
+                }
+            }
+        }
+
+        return vendas;
+    }
+
 
     //AUTH
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");

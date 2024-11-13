@@ -49,4 +49,10 @@ public class Cliente extends Pessoa {
     public static int getUltimoId(List<Cliente> clientes) {
         return clientes.size();
     }
+
+    @Override
+    public String toString() {
+        return getId() + " - " + getNome();
+    }
+
 }

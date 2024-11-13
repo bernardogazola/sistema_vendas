@@ -1,8 +1,6 @@
 package gui.admin;
 
 import gui.admin.frames.RegistroFrame;
-import gui.gerente.frames.EstoqueGerenciamentoFrame;
-import model.Gerente;
 
 import javax.swing.*;
 
