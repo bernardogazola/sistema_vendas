@@ -1,4 +1,4 @@
-package gui.vendedor.frames;
+package gui.gerente.frames;
 
 import exception.EstoqueInsuficienteException;
 import filemanager.cliente.ClienteFileManager;
@@ -15,15 +15,15 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VendaFrame extends JFrame {
+public class VendaGerenteFrame extends JFrame {
     private JComboBox<Cliente> clienteComboBox;
     private JPanel produtosPanel;
     private JLabel subtotalLabel;
     private List<ProdutoQuantidade> produtoQuantidades = new ArrayList<>();
 
-    public VendaFrame(Vendedor vendedor) {
-        setTitle("Realizar Venda");
-        setSize(600, 600);
+    public VendaGerenteFrame(Gerente gerente) {
+        setTitle("Realizar Venda (Gerente)");
+        setSize(600, 700);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
@@ -35,15 +35,14 @@ public class VendaFrame extends JFrame {
             List<Cliente> clientes = clienteFileManager.ler();
             List<Produto> produtos = produtoFileManager.ler();
 
-            JPanel clientePanel = new JPanel();
-            clientePanel.setLayout(new FlowLayout());
+            JPanel clientePanel = new JPanel(new FlowLayout());
             clientePanel.add(new JLabel("Cliente:"));
             clienteComboBox = new JComboBox<>(clientes.toArray(new Cliente[0]));
             clientePanel.add(clienteComboBox);
+
             add(clientePanel, BorderLayout.NORTH);
 
-            produtosPanel = new JPanel();
-            produtosPanel.setLayout(new GridLayout(produtos.size(), 1));
+            produtosPanel = new JPanel(new GridLayout(produtos.size(), 1));
             for (Produto produto : produtos) {
                 JPanel produtoPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
                 JLabel lblProduto = new JLabel(produto.getNome() + " - Estoque: " + produto.getQuantidadeEstoque() + " - Preço: R$" + produto.getPreco());
@@ -73,17 +72,19 @@ public class VendaFrame extends JFrame {
 
                 produtoQuantidades.add(new ProdutoQuantidade(produto, txtQuantidade));
             }
+
             JScrollPane scrollPane = new JScrollPane(produtosPanel);
             add(scrollPane, BorderLayout.CENTER);
 
             subtotalLabel = new JLabel("Subtotal: R$ 0.00");
             JPanel subtotalPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
             subtotalPanel.add(subtotalLabel);
-            add(subtotalPanel, BorderLayout.SOUTH);
 
             JButton btnRealizarVenda = new JButton("Realizar Venda");
-            btnRealizarVenda.addActionListener(e -> realizarVenda(vendedor, produtoFileManager));
+            btnRealizarVenda.addActionListener(e -> realizarVenda(gerente, produtoFileManager));
             subtotalPanel.add(btnRealizarVenda);
+
+            add(subtotalPanel, BorderLayout.SOUTH);
 
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this, "Erro ao carregar dados: " + e.getMessage());
@@ -101,7 +102,7 @@ public class VendaFrame extends JFrame {
                     int quantidade = Integer.parseInt(quantidadeStr);
                     subtotal += quantidade * produto.getPreco();
                 } catch (NumberFormatException e) {
-                    // Ignora
+                    // Ignora valores inválidos
                 }
             }
         }
@@ -109,8 +110,9 @@ public class VendaFrame extends JFrame {
         subtotalLabel.setText(String.format("Subtotal: R$ %.2f", subtotal));
     }
 
-    private void realizarVenda(Vendedor vendedor, ProdutoFileManager produtoFileManager) {
+    private void realizarVenda(Gerente gerente, ProdutoFileManager produtoFileManager) {
         Cliente cliente = (Cliente) clienteComboBox.getSelectedItem();
+
         if (cliente == null) {
             JOptionPane.showMessageDialog(this, "Selecione um cliente.");
             return;
@@ -118,9 +120,8 @@ public class VendaFrame extends JFrame {
 
         try {
             VendaFileManager vendaFileManager = new VendaFileManager();
-
             int idVenda = vendaFileManager.gerarNovoId();
-            Venda venda = new Venda(idVenda, cliente, vendedor, 0, LocalDate.now());
+            Venda venda = new Venda(idVenda, cliente, gerente, 0, LocalDate.now());
 
             List<Produto> todosProdutos = produtoFileManager.ler();
 

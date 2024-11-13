@@ -51,15 +51,7 @@ public class Produto {
         return idProduto;
     }
 
-    public void setIdProduto(int idProduto) {
-        this.idProduto = idProduto;
-    }
-
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public void setPreco(double preco) {
-        this.preco = preco;
     }
 }

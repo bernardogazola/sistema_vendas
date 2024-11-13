@@ -31,7 +31,7 @@ public class PerfilVendedorFrame extends JFrame {
 
         try {
             VendaFileManager vendaFileManager = new VendaFileManager();
-            List<Venda> vendas = vendaFileManager.lerVendasDoVendedor(vendedor.getId());
+            List<Venda> vendas = vendaFileManager.lerVendasDoFuncionario(vendedor.getId());
 
             for (Venda venda : vendas) {
                 totalVendas += venda.getTotal();

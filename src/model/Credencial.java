@@ -32,16 +32,4 @@ public class Credencial {
     public void setId(int id) {
         this.id = id;
     }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

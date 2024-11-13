@@ -1,9 +1,7 @@
 package gui.gerente;
 import gui.MainFrame;
-import gui.gerente.frames.CadastrarVendedorFrame;
-import gui.gerente.frames.EstoqueGerenciamentoFrame;
-import gui.gerente.frames.PerfilGerenteFrame;
-import gui.gerente.frames.ProdutoEstoqueFrame;
+import gui.cliente.ClienteCadastroFrame;
+import gui.gerente.frames.*;
 import model.Gerente;
 
 import javax.swing.*;
@@ -11,7 +9,7 @@ import javax.swing.*;
 public class GerenteDashboardFrame extends JFrame {
     public GerenteDashboardFrame(Gerente gerente) {
         setTitle("Dashboard - Gerente");
-        setSize(400, 400);
+        setSize(400, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(null);
@@ -20,30 +18,40 @@ public class GerenteDashboardFrame extends JFrame {
         lblBemVindo.setBounds(50, 50, 300, 30);
         add(lblBemVindo);
 
+        JButton btnCadastroCliente = new JButton("Cadastrar Cliente");
+        btnCadastroCliente.setBounds(50, 100, 300, 30);
+        btnCadastroCliente.addActionListener(e -> new ClienteCadastroFrame().setVisible(true));
+
         JButton btnCadastrarVendedor = new JButton("Cadastrar vendedor");
-        btnCadastrarVendedor.setBounds(50, 100, 300, 30);
+        btnCadastrarVendedor.setBounds(50, 150, 300, 30);
         btnCadastrarVendedor.addActionListener(e -> new CadastrarVendedorFrame().setVisible(true));
 
-        JButton btnAdicionarProduto = new JButton("Adicionar produto");
-        btnAdicionarProduto.setBounds(50, 150, 300, 30);
-        btnAdicionarProduto.addActionListener(e -> new EstoqueGerenciamentoFrame().setVisible(true));
+        JButton btnRealizarVenda = new JButton("Realizar Venda");
+        btnRealizarVenda.setBounds(50, 200, 300, 30);
+        btnRealizarVenda.addActionListener(e -> new VendaGerenteFrame(gerente).setVisible(true));
 
         JButton btnEstoqueProdutos = new JButton("Estoque Produtos");
-        btnEstoqueProdutos.setBounds(50, 200, 300, 30);
+        btnEstoqueProdutos.setBounds(50, 250, 300, 30);
         btnEstoqueProdutos.addActionListener(e -> new ProdutoEstoqueFrame().setVisible(true));
 
+        JButton btnHistoricoVendas = new JButton("Histórico de Vendas");
+        btnHistoricoVendas.setBounds(50, 300, 300, 30);
+        btnHistoricoVendas.addActionListener(e -> new HistoricoVendasFrame(gerente).setVisible(true));
+
         JButton btnVerPerfil = new JButton("Ver Perfil");
-        btnVerPerfil.setBounds(50, 250, 300, 30);
+        btnVerPerfil.setBounds(50, 350, 300, 30);
         btnVerPerfil.addActionListener(e -> new PerfilGerenteFrame(gerente).setVisible(true));
 
+        add(btnCadastroCliente);
         add(btnCadastrarVendedor);
-        add(btnAdicionarProduto);
+        add(btnRealizarVenda);
         add(btnEstoqueProdutos);
+        add(btnHistoricoVendas);
         add(btnVerPerfil);
 
         // LOGOUT
         JButton btnLogout = new JButton("Logout");
-        btnLogout.setBounds(50, 300, 300, 30);
+        btnLogout.setBounds(50, 400, 300, 30);
         btnLogout.addActionListener(e -> {
             dispose();
             new MainFrame().setVisible(true);

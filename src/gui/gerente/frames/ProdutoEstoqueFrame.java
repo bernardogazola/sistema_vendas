@@ -18,6 +18,12 @@ public class ProdutoEstoqueFrame extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JButton btnAdicionarProduto = new JButton("Adicionar Produto");
+        btnAdicionarProduto.addActionListener(e -> new EstoqueGerenciamentoFrame().setVisible(true));
+        topPanel.add(btnAdicionarProduto);
+        add(topPanel, BorderLayout.NORTH);
+
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 

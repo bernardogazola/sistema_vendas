@@ -36,43 +36,19 @@ public class Venda {
         return idVenda;
     }
 
-    public void setIdVenda(int idVenda) {
-        this.idVenda = idVenda;
-    }
-
     public Cliente getCliente() {
         return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
     }
 
     public Funcionario getFuncionario() {
         return funcionario;
     }
 
-    public void setFuncionario(Funcionario funcionario) {
-        this.funcionario = funcionario;
-    }
-
     public ArrayList<ItensVenda> getItensVenda() {
         return itensVenda;
     }
 
-    public void setItensVenda(ArrayList<ItensVenda> itensVenda) {
-        this.itensVenda = itensVenda;
-    }
-
-    public void setTotal(double total) {
-        this.total = total;
-    }
-
     public LocalDate getDataVenda() {
         return dataVenda;
-    }
-
-    public void setDataVenda(LocalDate dataVenda) {
-        this.dataVenda = dataVenda;
     }
 }

@@ -77,16 +77,16 @@ public class VendaFileManager extends FileManager<Venda> {
         return vendas;
     }
 
-    public List<Venda> lerVendasDoVendedor(int idVendedor) throws IOException {
+    public List<Venda> lerVendasDoFuncionario(int idFuncionario) throws IOException {
         List<Venda> todasVendas = ler();
-        List<Venda> vendasVendedor = new ArrayList<>();
+        List<Venda> vendasFuncionario = new ArrayList<>();
 
         for (Venda venda : todasVendas) {
-            if (venda.getFuncionario().getId() == idVendedor) {
-                vendasVendedor.add(venda);
+            if (venda.getFuncionario().getId() == idFuncionario) {
+                vendasFuncionario.add(venda);
             }
         }
 
-        return vendasVendedor;
+        return vendasFuncionario;
     }
 }
